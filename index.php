@@ -1,16 +1,9 @@
 <?
-    function printMessage($message){
-        echo "$message<br>";
-    }
+    const ALL_PICTURES = 80;
+    const PAINTED_MARKER = 23;
+    const PAINTED_PENCIL = 40;
+    const PAINTED_PAINTS = ALL_PICTURES - (PAINTED_MARKER + PAINTED_PENCIL);
 
-    $name = 'Николай';
-
-    $age = '21';
-
-    printMessage("Меня зовут: $name");
-
-    printMessage("Мне $age лет");
-
-    printMessage("\"!|/'\"\\");
+    echo PAINTED_PAINTS;
 
 ?>
