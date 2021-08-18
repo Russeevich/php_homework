@@ -1,37 +1,50 @@
-<?
-    function printMessage($message){
-        echo "$message <br>";
-    }
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework_1.6</title>
+    <style>
+        th{
+            padding: 20px;
+        }
+        td{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <?
+                for($i=1; $i <= 10; $i++) {
+                    echo "<th>$i</th>";
+                }
+            ?>
+        </thead>
+        <tbody>
+            <?
+                for($i=1; $i <= 10; $i++){
+            ?>
+                <tr>
+                <?
+                    for($j=1; $j <= 10; $j++){
+                        $res = $i * $j;
 
-    $bmw = array(
-        'model' => 'X5',
-        'speed' => 120,
-        'doors' => 5,
-        'year' => '2015'
-    );
-
-    $toyota = array(
-        'model' => 'Camry',
-        'speed' => 200,
-        'doors' => 5,
-        'year' => '2018'
-    );
-
-    $opel = array(
-        'model' => 'Astra',
-        'speed' => 110,
-        'doors' => 5,
-        'year' => '2012'
-    );
-
-    $new_arr = array(
-        'bmw' => $bmw,
-        'toyota' => $toyota,
-        'opel' => $opel
-    );
-
-    foreach($new_arr as $key => $value){
-        printMessage("CAR $key");
-        printMessage("$value[model] $value[speed] $value[doors] $value[year]");
-    }
-?>
+                        if($i % 2 === 0 && $j % 2 === 0){
+                            echo "<td>($res)</td>";
+                        } elseif($i % 2 !== 0 && $j % 2 !== 0){
+                            echo "<td>[$res]</td>";
+                        } else {
+                            echo "<td>$res</td>";
+                        }
+                    }
+                ?>
+                </tr>
+            <?
+                }
+            ?>
+        </tbody>
+    </table>
+</body>
+</html>
