@@ -1,20 +1,37 @@
 <?
-    $day = 0;
+    function printMessage($message){
+        echo "$message <br>";
+    }
 
-    switch($day){
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-            echo 'Это рабочий день';
-            break;
-        case 6:
-        case 7:
-            echo 'Это выходной день';
-            break;
-        default:
-            echo 'Неизвестный день';
-            break;
+    $bmw = array(
+        'model' => 'X5',
+        'speed' => 120,
+        'doors' => 5,
+        'year' => '2015'
+    );
+
+    $toyota = array(
+        'model' => 'Camry',
+        'speed' => 200,
+        'doors' => 5,
+        'year' => '2018'
+    );
+
+    $opel = array(
+        'model' => 'Astra',
+        'speed' => 110,
+        'doors' => 5,
+        'year' => '2012'
+    );
+
+    $new_arr = array(
+        'bmw' => $bmw,
+        'toyota' => $toyota,
+        'opel' => $opel
+    );
+
+    foreach($new_arr as $key => $value){
+        printMessage("CAR $key");
+        printMessage("$value[model] $value[speed] $value[doors] $value[year]");
     }
 ?>
