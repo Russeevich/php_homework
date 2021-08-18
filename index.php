@@ -1,14 +1,16 @@
 <?
-    const TEST_CONSTANTA = 'asd';
-
-    $user_name = 'Igor';
-
-    function showSomething(){
-        return 'SOMETHING';
+    function printMessage($message){
+        echo "$message<br>";
     }
 
-    if(1 == 1){
-        echo 'hi';
-    }
+    $name = 'Николай';
+
+    $age = '21';
+
+    printMessage("Меня зовут: $name");
+
+    printMessage("Мне $age лет");
+
+    printMessage("\"!|/'\"\\");
 
 ?>
