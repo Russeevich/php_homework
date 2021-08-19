@@ -15,6 +15,5 @@
             break;
         default:
             echo 'Неизвестный день';
-            break;
     }
 ?>
