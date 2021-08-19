@@ -4,12 +4,12 @@
     }
 
     function task1($arr, $concat = false){
-        if(!$concat){
-            foreach($arr as $value){
-                echo "<p>$value</p>";
-            }
-        } else {
+        if($concat){
             return implode(',', $arr);
+        }
+        
+        foreach($arr as $value){
+            echo "<p>$value</p>";
         }
     }
 
@@ -96,7 +96,7 @@
 
         fwrite($file, 'Hello again!');
         fclose($file);
-        
+
         printMessage('Файл успешно создан!');
     }
 
