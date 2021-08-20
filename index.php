@@ -32,6 +32,6 @@
 
     foreach($new_arr as $key => $value){
         printMessage("CAR $key");
-        printMessage("$value[model] $value[speed] $value[doors] $value[year]");
+        printMessage($value['model'].' '.$value['speed'].' '.$value['doors'].' '.$value['year']);
     }
 ?>
