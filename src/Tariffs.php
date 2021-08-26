@@ -12,6 +12,7 @@
     {
         protected $way;
         protected $time;
+        protected $service;
         public $result = 0;
 
         public function __construct(int $way, int $time)
@@ -39,7 +40,8 @@
 
         public function addServices(iServices $service)
         {
-            $service->add($this);
+            $this->service = $service;
+            $this->result += $this->service->getPrice(["time" => $this->time]);
         }
     }
 

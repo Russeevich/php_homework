@@ -1,23 +1,23 @@
 <?
     interface iServices
     {
-        public function add(Tariff $tariff);
+        public function getPrice($params);
     }
 
     class Gps implements iServices
     {
         private $timePay = 15;
-        public function add(Tariff $tariff)
+        public function getPrice($params)
         {
-            $tariff->result += ceil($tariff->getTime() / 60) * $this->timePay;
+            return ceil($params['time'] / 60) * $this->timePay;
         }
     }
 
     class Driver implements iServices
     {
         private $pay = 100;
-        public function add(Tariff $tariff)
+        public function getPrice($params)
         {
-            $tariff->result += $this->pay;
+            return $this->pay;
         }
     }
