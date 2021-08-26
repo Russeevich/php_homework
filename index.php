@@ -1,5 +1,3 @@
 <?
-    require('src/functions.php');
-
-    task1();
+    require('src/Tariffs.php');
 ?>
