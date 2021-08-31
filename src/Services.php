@@ -6,10 +6,10 @@
 
     class Gps implements iServices
     {
-        private $timePay = 15;
+        const PRICE_PER_HOUR = 15;
         public function getPrice($params)
         {
-            return ceil($params['time'] / 60) * $this->timePay;
+            return ceil($params['time'] / 60) * self::PRICE_PER_HOUR;
         }
     }
 

@@ -10,12 +10,11 @@
 
     abstract class Tariff implements iTariff
     {
-        protected $way;
-        protected $time;
-        protected $service;
-        public $result = 0;
+        private $way;
+        private $time;
+        private $services;
 
-        public function __construct(int $way, int $time)
+        public function __construct(float $way, float $time)
         {
             $this->way = $way;
             $this->time = $time;
@@ -25,23 +24,37 @@
         {
             return $this->time;
         }
+
+        public function addServices(iServices $service)
+        {
+            $this->services[] = $service;
+        }
+
+        public function getWay()
+        {
+            return $this->way;
+        }
+
+        public function getServices()
+        {
+            return $this->services;
+        }
     }
 
     class BaseTariff extends Tariff
     {
-        private $priceKm = 10;
-        private $priceMin = 3;
+        const PRICE_KM = 10;
+        const PRICE_PER_MINUTE = 3;
 
         public function calcResult()
         {
-            $this->result += $this->way * $this->priceKm + $this->time * $this->priceMin;
-            return $this->result;
-        }
+            $result = $this->getWay() * self::PRICE_KM + $this->time * self::PRICE_PER_MINUTE;
 
-        public function addServices(iServices $service)
-        {
-            $this->service = $service;
-            $this->result += $this->service->getPrice(["time" => $this->time]);
+            foreach($this->getServices() as $value){
+                $result += $value->getPrice(["time" => $this->time]);
+            }
+
+            return $result;
         }
     }
 
