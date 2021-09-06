@@ -2,8 +2,8 @@
 namespace Base;
 
 use App\Controller\Blog;
-use App\Controller\User;
-use App\Model\UserModel;
+use App\Controller\UserController;
+use App\Model\User;
 use JetBrains\PhpStorm\Pure;
 
 class Application
@@ -78,7 +78,7 @@ class Application
         $id = $_SESSION["id"] ?? null;
 
         if($id){
-            $user = UserModel::getById($id);
+            $user = User::getById($id);
             if($user){
                 $this->controller->setUser($user);
             }

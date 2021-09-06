@@ -1,12 +1,12 @@
 <?php
 namespace Base;
 
-use App\Model\UserModel;
+use App\Model\User;
 
 abstract class abstractController
 {
     protected View $view;
-    protected UserModel $user;
+    protected User $user;
 
     /**
      * @throws RedirectException
@@ -25,9 +25,9 @@ abstract class abstractController
     }
 
     /**
-     * @param UserModel $user
+     * @param User $user
      */
-    public function setUser(UserModel $user): void
+    public function setUser(User $user): void
     {
         $this->user = $user;
     }

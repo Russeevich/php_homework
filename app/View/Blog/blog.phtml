@@ -1,7 +1,7 @@
 <?php
-use App\Model\UserModel;
+use App\Model\User;
 
-/** @var UserModel $user */
+/** @var User $user */
 $user = $this->user;
 ?>
 
@@ -100,7 +100,7 @@ $user = $this->user;
     </form>
         <ul class="blog-list">
             <?php foreach ($this->messages as $value): ?>
-                <?php $owner = UserModel::getById($value['owner_id']); ?>
+                <?php $owner = User::getById($value['owner_id']); ?>
                <li class="blog-list__item">
                    <form class="blog-list__form" action="/blog/delete" method="post">
                        <?php if($value['image']): ?>

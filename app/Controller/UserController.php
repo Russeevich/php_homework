@@ -1,10 +1,10 @@
 <?php
 namespace App\Controller;
 
-use App\Model\UserModel;
+use App\Model\User;
 use Base\abstractController;
 
-class User extends abstractController
+class UserController extends abstractController
 {
     /**
      * @throws \Base\RedirectException
@@ -19,11 +19,11 @@ class User extends abstractController
         $password = $_POST["password"] ?? null;
 
         if(isset($email, $password)){
-            $user = UserModel::getByEmail($email);
+            $user = User::getByEmail($email);
 
             if(!$user){
                 $this->view->assign("error", "Пользователь или пароль неверны!");
-            } else if($user->getPassword() !== UserModel::getPasswordHash($password)) {
+            } else if($user->getPassword() !== User::getPasswordHash($password)) {
                 $this->view->assign("error", "Пользователь или пароль неверны!");
             } else {
                 $_SESSION["id"] = $user->getId();
@@ -32,7 +32,7 @@ class User extends abstractController
             }
         }
 
-        return $this->view->render("User/login.phtml", []);
+        return $this->view->render("user/login.phtml");
     }
 
     /**
@@ -50,7 +50,7 @@ class User extends abstractController
         $name = $_POST["name"] ?? null;
 
         if(isset($email, $password, $repeat_password, $name)){
-            $user = UserModel::getByEmail($email);
+            $user = User::getByEmail($email);
 
             if($user){
                 $this->view->assign("error", "Пользователь с таким email уже зарегистрирован!");
@@ -63,9 +63,9 @@ class User extends abstractController
                 else if (strlen($password) < 4) {
                     $this->view->assign("error", "Длина паролья должна быть больше 4х символов!");
                 } else {
-                    $user = new UserModel([
+                    $user = new User([
                         "email" => $email,
-                        "password" => UserModel::getPasswordHash($password),
+                        "password" => User::getPasswordHash($password),
                         "name" => $name
                     ]);
 
@@ -76,6 +76,6 @@ class User extends abstractController
             }
         }
 
-        return $this->view->render("User/register.phtml", []);
+        return $this->view->render("user/register.phtml");
     }
 }

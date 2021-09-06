@@ -4,7 +4,7 @@ namespace App\Model;
 use Base\abstractModel;
 use Base\DB;
 
-class UserModel extends abstractModel
+class User extends abstractModel
 {
     private ?string $name;
     private ?int $id;
