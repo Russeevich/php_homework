@@ -46,9 +46,9 @@
     }
 </style>
 <div class="register-page">
-    <?php if($this->error):?>
-        <div class="message"><?=$this->error?></div>
-    <?php endif;?>
+    {% if error %}
+        <div class="message">{{ error }}</div>
+    {% endif %}
     <form class="register" method="post" action="/user/register">
         <input class="register__input" type="text" name="name" placeholder="Введите имя"/>
         <input class="register__input" type="email" name="email" placeholder="Введите email"/>

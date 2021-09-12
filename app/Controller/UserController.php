@@ -32,7 +32,7 @@ class UserController extends abstractController
             }
         }
 
-        return $this->view->render("user/login.phtml");
+        return $this->view->renderTwig("user/login.twig");
     }
 
     /**
@@ -76,6 +76,6 @@ class UserController extends abstractController
             }
         }
 
-        return $this->view->render("user/register.phtml");
+        return $this->view->renderTwig("user/register.twig");
     }
 }

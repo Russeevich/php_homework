@@ -9,7 +9,7 @@ use JetBrains\PhpStorm\Pure;
 class Application
 {
     private Route $route;
-    private abstractController $controller;
+    private $controller;
     private string $actionName;
 
     #[Pure] public function __construct()
@@ -87,9 +87,9 @@ class Application
 
     private function addRoutes() : void
     {
-        $this->route->addRoute('/user/login', User::class, 'login');
+        $this->route->addRoute('/user/login', UserController::class, 'login');
 
-        $this->route->addRoute('/user/register', User::class, 'register');
+        $this->route->addRoute('/user/register', UserController::class, 'register');
 
         $this->route->addRoute('/blog/api/user', Blog::class, 'searchMessage');
 

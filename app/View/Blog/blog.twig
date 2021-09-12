@@ -1,10 +1,3 @@
-<?php
-use App\Model\User;
-
-/** @var User $user */
-$user = $this->user;
-?>
-
 <style>
     li{
         list-style: none;
@@ -99,26 +92,25 @@ $user = $this->user;
         </div>
     </form>
         <ul class="blog-list">
-            <?php foreach ($this->messages as $value): ?>
-                <?php $owner = User::getById($value['owner_id']); ?>
+            {% for message in messages %}
                <li class="blog-list__item">
                    <form class="blog-list__form" action="/blog/delete" method="post">
-                       <?php if($value['image']): ?>
+                       {% if(message['image']) %}
                            <div class="blog-list__content">
-                               <img class="blog-list__image" src="<?="../image/" . $value['image']?>">
+                               <img class="blog-list__image" src="../image/{{ message['image'] }}">
                            </div>
-                       <?php endif;?>
+                       {% endif %}
                        <div class="blog-list__item--inner">
-                           <span class="blog-list__item--name"><?=$owner->getName()?></span>
-                           <div class="blog-list__item--text"><?=$value['text']?></div>
-                           <span class="blog-list__item--date"><?=$value['created_at']?></span>
+                           <span class="blog-list__item--name">{{ getUserName(message['owner_id']) }}</span>
+                           <div class="blog-list__item--text">{{ message['text'] }}</div>
+                           <span class="blog-list__item--date">{{ message['created_at'] }}</span>
                        </div>
-                       <?php if($user->getRole() === ADMIN_ROLE):?>
-                           <input style="display: none;" name="id" value="<?=$value['id']?>">
+                       {% if isAdmin %}
+                           <input style="display: none;" name="id" value="{{ message['id'] }}">
                            <button class="blog-list__item--delete" type="submit">&times;</button>
-                       <?php endif?>
+                       {% endif %}
                    </form>
                </li>
-            <?php endforeach;?>
+            {%  endfor %}
         </ul>
 </div>

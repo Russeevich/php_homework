@@ -12,9 +12,10 @@ class Blog extends abstractController
             $this->redirect("/user/login");
         }
 
-        return $this->view->render("/Blog/blog.phtml", [
+        return $this->view->renderTwig("/Blog/blog.twig", [
             "user" => $this->user,
-            "messages" => MessageModel::getLastMessage(20)
+            "messages" => MessageModel::getLastMessage(20),
+            "isAdmin" => $this->user->getRole() === ADMIN_ROLE
         ]);
     }
 
