@@ -23,10 +23,10 @@ class UserController extends abstractController
 
             if(!$user){
                 $this->view->assign("error", "Пользователь или пароль неверны!");
-            } else if($user->getPassword() !== User::getPasswordHash($password)) {
+            } else if($user->password !== User::getPasswordHash($password)) {
                 $this->view->assign("error", "Пользователь или пароль неверны!");
             } else {
-                $_SESSION["id"] = $user->getId();
+                $_SESSION["id"] = $user->id;
 
                 $this->redirect("/blog/index");
             }

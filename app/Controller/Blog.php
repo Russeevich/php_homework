@@ -24,19 +24,13 @@ class Blog extends abstractController
             $this->redirect("/user/login");
         }
 
-        $message = new MessageModel($_POST['text'], $this->user->getId(), $_FILES['file']['name']);
+        $message = new MessageModel;
 
-        if($_FILES['file']) {
-            $file = $_FILES['file'];
-            $filePath = UPLOAD_FULL_PATH . $file['name'];
+        $message->text = $_POST['text'];
+        $message->owner_id = $this->user->id;
+        $message->image = $_FILES['file']['name'];
 
-            if(move_uploaded_file($file['tmp_name'], $filePath)){
-                echo 'Файл успешно загружен';
-            } else{
-                echo 'Ошибка загрузки файла';
-            }
-        }
-
+        $this->uploadFile($_FILES['file']);
 
         $message->save();
 
@@ -48,7 +42,7 @@ class Blog extends abstractController
      */
     public function deleteMessageAction() : void
     {
-        if(!isset($_SESSION['id']) || $this->user->getRole() !== ADMIN_ROLE){
+        if(!isset($_SESSION['id']) || $this->user->role !== ADMIN_ROLE){
             $this->redirect("/user/login");
         }
 
@@ -66,9 +60,9 @@ class Blog extends abstractController
 
          $data = MessageModel::searchMessageByOwnerId($user_id, 20);
 
-         if($data) {
+         if(count($data) > 0) {
              header('Content-Type: application/json');
-             echo json_encode(MessageModel::searchMessageByOwnerId($user_id, 20), JSON_THROW_ON_ERROR);
+             echo json_encode($data, JSON_THROW_ON_ERROR);
          } else {
              echo 'Записей не обнаружено!';
          }

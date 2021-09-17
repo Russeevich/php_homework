@@ -1,8 +1,9 @@
 <?php
+/** @var \App\Model\User $user */
+
 use App\Model\User;
 
-/** @var User $user */
-$user = $this->user;
+$user = $this->user
 ?>
 
 <style>
@@ -109,11 +110,11 @@ $user = $this->user;
                            </div>
                        <?php endif;?>
                        <div class="blog-list__item--inner">
-                           <span class="blog-list__item--name"><?=$owner->getName()?></span>
+                           <span class="blog-list__item--name"><?=$owner->name?></span>
                            <div class="blog-list__item--text"><?=$value['text']?></div>
                            <span class="blog-list__item--date"><?=$value['created_at']?></span>
                        </div>
-                       <?php if($user->getRole() === ADMIN_ROLE):?>
+                       <?php if($user->role === ADMIN_ROLE):?>
                            <input style="display: none;" name="id" value="<?=$value['id']?>">
                            <button class="blog-list__item--delete" type="submit">&times;</button>
                        <?php endif?>

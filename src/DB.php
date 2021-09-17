@@ -1,41 +1,38 @@
 <?php
 namespace Base;
 
+use Illuminate\Database\Capsule\Manager;
+
 class DB
 {
-    private static $instance;
-
-    private $pdo;
-
-    private function __construct(){}
-
-    private function __clone(){}
-
-    public static function getInstance() : ?self
-    {
-        if(!self::$instance){
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-    public function getConnection() : \PDO
-    {
+    public function __construct(){
         $host = DB_HOST;
+        $driver = DB_DRIVER;
         $dbName = DB_NAME;
         $dbUser = DB_USER;
         $dbPass = DB_PASS;
 
-        if(!$this->pdo) {
-            $this->pdo = new \PDO(
-                "mysql:host=$host;dbname=$dbName",
-                $dbUser,
-                $dbPass
+            $capsule = new Manager;
+            $capsule->addConnection(
+                [
+                    "driver" => $driver,
+                    "host" => $host,
+                    "database" => $dbName,
+                    "username" => $dbUser,
+                    "password" => $dbPass,
+                    "charset" => "utf8",
+                    "collation" => "utf8_unicode_ci",
+                    "prefix" => ""
+                ]
             );
-        }
+            $capsule->bootEloquent();
+    }
 
-        return $this->pdo;
+    private function __clone(){}
+
+    public function getConnection() : void
+    {
+
     }
 
 }

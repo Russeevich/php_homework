@@ -1,0 +1,89 @@
+<?php
+    $users = $this->users;
+?>
+
+<style>
+    ul{
+        padding: 0;
+    }
+    li{
+        list-style: none;
+    }
+    .admin{
+        display: flex;
+    }
+    .users{
+        width: 50%;
+    }
+    .user{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .user > img{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+</style>
+
+<?php
+
+?>
+
+<div class="admin">
+    <div class="users">
+        <h3>Редактирование пользователей</h3>
+    <?php if($users):?>
+        <ul>
+            <?php foreach ($users as $user): ?>
+            <li>
+                <form method="post" action="/admin/change" enctype="multipart/form-data">
+                    <div class="user">
+                        <input hidden name="id" value="<?=$user->id?>">
+                        <div>id: <?=$user->id?></div>
+                        <img alt="Нет изображения" src="../image/<?=$user->image?>">
+                        <input name="name" minlength="2" value="<?=$user->name?>"/>
+                        <input name="email" type="email" value="<?=$user->email?>"/>
+                        <input name="password" type="password" placeholder="Новый пароль"/>
+                        <select name="role" >
+                            <?php foreach (TYPE_OF_ROLE as $key => $role): ?>
+                                <?php if($user->role === $key): ?>
+                                    <option value="<?=$key?>" selected><?=$role?></option>
+                                <?php else:?>
+                                    <option value="<?=$key?>"><?=$role?></option>
+                                <?php endif;?>
+                            <?php endforeach;?>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit">Сохранить</button>
+                        <input type="file" name="file" accept="image/png, image/gif, image/jpeg">
+                    </div>
+                </form>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif;?>
+    </div>
+    <div>
+        <h3>Добавление нового пользователя</h3>
+        <form method="post" action="/admin/add" enctype="multipart/form-data">
+            <div class="user">
+                <input name="name" minlength="2" placeholder="Имя"/>
+                <input name="email" type="email" placeholder="Email"/>
+                <input name="password" type="password" placeholder="Пароль"/>
+                <select name="role" >
+                    <?php foreach (TYPE_OF_ROLE as $key => $role): ?>
+                            <option value="<?=$key?>"><?=$role?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+            <div>
+                <button type="submit">Сохранить</button>
+                <input type="file" name="file" accept="image/png, image/gif, image/jpeg">
+            </div>
+        </form>
+    </div>
+</div>

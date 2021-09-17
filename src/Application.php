@@ -1,6 +1,7 @@
 <?php
 namespace Base;
 
+use App\Controller\AdminController;
 use App\Controller\Blog;
 use App\Controller\UserController;
 use App\Model\User;
@@ -21,6 +22,8 @@ class Application
     {
         try {
             session_start();
+
+            $db = new DB();
 
             $this->addRoutes();
 
@@ -87,14 +90,20 @@ class Application
 
     private function addRoutes() : void
     {
-        $this->route->addRoute('/user/login', User::class, 'login');
+        $this->route->addRoute('/user/login', UserController::class, 'login');
 
-        $this->route->addRoute('/user/register', User::class, 'register');
+        $this->route->addRoute('/user/register', UserController::class, 'register');
+
+        $this->route->addRoute('/admin', AdminController::class, 'index');
 
         $this->route->addRoute('/blog/api/user', Blog::class, 'searchMessage');
 
         $this->route->addRoute('/blog/add', Blog::class, 'addMessage');
 
         $this->route->addRoute('/blog/delete', Blog::class, 'deleteMessage');
+
+        $this->route->addRoute('/admin/change', AdminController::class, 'change');
+
+        $this->route->addRoute('/admin/add', AdminController::class, 'add');
     }
 }

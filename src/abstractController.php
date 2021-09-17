@@ -24,6 +24,24 @@ abstract class abstractController
         $this->view = $view;
     }
 
+    public function uploadFile($file) : void
+    {
+        if($file['name']) {
+            $filePath = UPLOAD_FULL_PATH . $file['name'];
+
+            if (!mkdir($concurrentDirectory = UPLOAD_FULL_PATH) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
+
+            if(move_uploaded_file($file['tmp_name'], $filePath)){
+                echo 'Файл успешно загружен';
+            } else{
+                echo 'Ошибка загрузки файла';
+                die();
+            }
+        }
+    }
+
     /**
      * @param User $user
      */

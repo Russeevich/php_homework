@@ -1,7 +1,9 @@
 <?php
 namespace Base;
 
-abstract class abstractModel
+use Illuminate\Database\Eloquent\Model;
+
+abstract class abstractModel extends Model
 {
 
 }
