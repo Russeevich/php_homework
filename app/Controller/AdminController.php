@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Model\User;
 use Base\abstractController;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AdminController extends abstractController
 {
@@ -40,12 +41,14 @@ class AdminController extends abstractController
 
     function indexAction() : string
     {
-        if(!$_SESSION['id']){
-            $this->redirect('/user/login');
+        if(!array_key_exists('id', $_SESSION)){
+            header('HTTP/1.1 404 Not Found');
+            die('Пройдите авторизацию');
         }
 
         if($this->user->role !== ADMIN_ROLE){
-            $this->redirect('/blog/index');
+            header('HTTP/1.0 403 Forbidden');
+            die('Нет прав для доступа');
         }
 
         return $this->view->render("admin/admin.phtml", [
@@ -55,42 +58,52 @@ class AdminController extends abstractController
 
     function changeAction()
     {
-        if(!$_SESSION['id']){
-            $this->redirect('/user/login');
+        if(!array_key_exists('id', $_SESSION)){
+            header('HTTP/1.1 404 Not Found');
+            die('Пройдите авторизацию');
         }
 
         if($this->user->role !== ADMIN_ROLE){
-            $this->redirect('/blog/index');
+            header('HTTP/1.0 403 Forbidden');
+            die('Нет прав для доступа');
         }
 
         $id = $_POST['id'];
-        $findUser = count(User::query()->where('email', '=', $_POST['email'])->get());
-
-        if(!$findUser) {
-            $this->setUserData(array_merge($_POST, $_FILES), User::query()->find($id))->save();
-            $this->redirect('/admin');
-        } else {
-            echo 'Пользователь с таким email уже существует';
+        try{
+            User::query()->where('email', '=', $_POST['email'])->firstOrFail();
+            die('Такой пользователь уже существует');
+        }catch(ModelNotFoundException $e){
+            $saved = $this->setUserData(array_merge($_POST, $_FILES), User::query()->find($id))->save();
+            if($saved){
+                $this->redirect('/admin');
+            } else {
+                die('Ошибка обновления пользователя');
+            }
         }
     }
 
     function addAction()
     {
-        if(!$_SESSION['id']){
-            $this->redirect('/user/login');
+        if(!array_key_exists('id', $_SESSION)){
+            header('HTTP/1.1 404 Not Found');
+            die('Пройдите авторизацию');
         }
 
         if($this->user->role !== ADMIN_ROLE){
-            $this->redirect('/blog/index');
+            header('HTTP/1.0 403 Forbidden');
+            die('Нет прав для доступа');
         }
 
-        $findUser = count(User::query()->where('email', '=', $_POST['email'])->get());
-
-        if(!$findUser) {
-            $this->setUserData(array_merge($_POST, $_FILES), new User)->save();
-            $this->redirect('/admin');
-        } else {
-            echo 'Пользователь с таким email уже существует';
+        try{
+            User::query()->where('email', '=', $_POST['email'])->firstOrFail();
+            die('Такой пользователь уже существует');
+        }catch(ModelNotFoundException $e){
+            $saved = $this->setUserData(array_merge($_POST, $_FILES), new User)->save();
+            if($saved){
+                $this->redirect('/admin');
+            } else {
+                die('Ошибка создания пользователя');
+            }
         }
     }
 }
