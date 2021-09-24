@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\Products;
 use Illuminate\View\Component;
 
 class footer extends Component
@@ -15,7 +15,7 @@ class footer extends Component
      */
     public function __construct()
     {
-        $this->product =  DB::table('products')->inRandomOrder()->first();
+        $this->product = Products::inRandomOrder()->first();
     }
 
     /**

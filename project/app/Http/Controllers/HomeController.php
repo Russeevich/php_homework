@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
-use Illuminate\Http\Request;
+use App\Models\Admin_mail;
+use App\Models\Category;
+use App\Models\Orders;
+use App\Models\Products;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -25,10 +27,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = DB::table('products')->get();
-        $categories = DB::table('category')->get();
-        $orders = DB::table('orders')->get();
-        $mail = DB::table('admin_mail')->first()->email ?? null;
+        $products = Products::get();
+        $categories = Category::get();
+        $orders = Orders::get();
+        $mail = Admin_mail::first()->email ?? null;
         return view('home', [
             "products" => $products,
             "orders" => $orders,
@@ -43,7 +45,7 @@ class HomeController extends Controller
         $desc = $_POST['desc'] ?? null;
 
         if(!empty($name)){
-            DB::table('category')->where('id', $id)->update(['name' => $name, 'description' => $desc]);
+            Category::where('id', $id)->update(['name' => $name, 'description' => $desc]);
             return back()->withInput();
         } else {
             die('Введено некоректное имя');
@@ -56,7 +58,7 @@ class HomeController extends Controller
         $desc = $_POST['desc'] ?? null;
 
         if(!empty($name)){
-            DB::table('category')->insert(["name" => $name, "description" => $desc]);
+            Category::insert(["name" => $name, "description" => $desc]);
             return back()->withInput();
         } else {
             die('Введено некоректное имя');
@@ -65,7 +67,7 @@ class HomeController extends Controller
 
     public function deleteCat($id)
     {
-        DB::table('category')->delete($id);
+        Category::where('id', $id)->delete($id);
         return back()->withInput();
     }
 
@@ -87,12 +89,12 @@ class HomeController extends Controller
         }
 
         if(!empty($name) && !empty($price) && !empty($category)){
-            DB::table('products')->where('id', $id)->update([
+            Products::where('id', $id)->update([
                 'name' => $name,
                 'description' => $desc,
                 'price' => $price,
                 'category' => $category,
-                'image' => $fileName ?? DB::table('products')->where('id', $id)->image
+                'image' => $fileName ?? Products::where('id', $id)->image
             ]);
             return back()->withInput();
         } else {
@@ -119,7 +121,7 @@ class HomeController extends Controller
         }
 
         if(!empty($name) && !empty($price) && !empty($category)){
-                DB::table('products')->insert([
+                Products::insert([
                     'name' => $name,
                     'description' => $desc,
                     'price' => $price,
@@ -134,7 +136,7 @@ class HomeController extends Controller
 
     public function deleteProd($id)
     {
-        DB::table('products')->delete($id);
+        Products::where('id', $id)->delete();
         return back()->withInput();
     }
 
@@ -143,10 +145,10 @@ class HomeController extends Controller
         $email = $_POST['email'] ?? null;
 
         if(!empty($email)){
-            if(count(DB::table('admin_mail')->get()) > 0){
-                DB::table('admin_mail')->where('id', 1)->update(['email' => $email]);
+            if(count(Admin_mail::get()) > 0){
+                Admin_mail::where('id', 1)->update(['email' => $email]);
             } else{
-                DB::table('admin_mail')->insert(['email' => $email]);   
+                Admin_mail::insert(['email' => $email]);   
             }
             return back()->withInput();
         } else {

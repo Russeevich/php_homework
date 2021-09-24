@@ -13,7 +13,7 @@ class AdminMail extends Migration
      */
     public function up()
     {
-        Schema::create('admin_mail', function (Blueprint $table) {
+        Schema::create('admin_mails', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('email');
         });
@@ -26,6 +26,6 @@ class AdminMail extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admin_mail');
+        Schema::dropIfExists('admin_mails');
     }
 }

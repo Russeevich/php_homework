@@ -14,7 +14,7 @@
       <x-header :isAuth="!empty(Auth::user())"/>
       <div class="middle">
         <div class="sidebar">
-          <x-category :categories="DB::table('category')->get()"/>
+          <x-category :categories="$categories"/>
           <div class="sidebar-item">
             <div class="sidebar-item__title">Последние новости</div>
             <div class="sidebar-item__content">

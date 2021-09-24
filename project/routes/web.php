@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Category;
+use App\Models\Products;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,28 +20,33 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $page = $_GET['page'] ?? 1;
-    $data = [];
-    $data["products"] = DB::table('products')->
-                          skip(($page - 1) * 20)->
+    $data = [
+        "products" => Products::skip(($page - 1) * 20)->
                           take(20)->
-                          get();
+                          get(),
+        "categories" => Category::get()
+    ];
 
     return view('welcome', $data);
 });
 
 Route::get('/product/{id}', function($id){
-    $product = DB::table('products')->find($id);
+    $product = Products::find($id);
     return view('product', [
-        "product" => $product
+        "product" => $product,
+        "categories" => Category::get(),
+        "randProd" => Products::inRandomOrder()->limit(4)->get(),
+        "catName" => Category::find($product->category)->name
     ]);
 });
 
 Route::get('/category/{id}', function($id){
-    $category = DB::table('category')->find($id);
+    $category = Category::find($id);
     if(!empty($category)){
         return view('category', [
             "cat" => $category,
-            "products" => DB::table('products')->where('category', $id)->get()
+            "products" => Products::where('category', $id)->get(),
+            "categories" => Category::get()
         ]);
     }
     abort(404);

@@ -14,7 +14,7 @@
       <x-header :isAuth="!empty(Auth::user())"/>
       <div class="middle">
         <div class="sidebar">
-          <x-category :categories="DB::table('category')->get()"/>
+          <x-category :categories="$categories"/>
           <div class="sidebar-item">
             <div class="sidebar-item__title">Последние новости</div>
             <div class="sidebar-item__content">
@@ -43,7 +43,7 @@
           <div class="content-middle">
             <div class="content-head__container">
               <div class="content-head__title-wrap">
-                <div class="content-head__title-wrap__title bcg-title">{{$product->name}} в разделе {{DB::table('category')->find($product->category)->name}}</div>
+                <div class="content-head__title-wrap__title bcg-title">{{$product->name}} в разделе {{$catName}}</div>
               </div>
               <div class="content-head__search-block">
                 <div class="search-container">
@@ -74,7 +74,7 @@
               </div>
             </div>
           </div>
-          <x-other-product :products="DB::table('products')->inRandomOrder()->limit(4)->get()"/>
+          <x-other-product :products="$randProd"/>
         </div>
       </div>
       <x-footer/>
